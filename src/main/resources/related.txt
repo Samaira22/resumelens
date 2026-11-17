@@ -1,0 +1,10 @@
+# If the job requires the left skill, these resume skills give partial credit
+# Format: RequiredSkill:related skill 1,related skill 2
+SQL:MySQL,PostgreSQL
+MySQL:PostgreSQL,SQL
+PostgreSQL:MySQL,SQL
+Machine Learning:Deep Learning,Scikit-learn
+Deep Learning:Machine Learning
+JavaScript:TypeScript
+TypeScript:JavaScript
+Node.js:JavaScript

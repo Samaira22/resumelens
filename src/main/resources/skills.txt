@@ -1,0 +1,37 @@
+# Format: CanonicalName:synonym1,synonym2,...
+
+# Languages
+Java:java
+JavaScript:javascript,js
+Python:python
+C++:c++,cpp
+SQL:sql
+TypeScript:typescript,ts
+
+# Frameworks and libraries
+Spring Boot:spring boot,springboot
+React:react,react.js,reactjs
+Node.js:node.js,nodejs,node
+Scikit-learn:scikit-learn,sklearn
+
+# Databases
+MySQL:mysql
+PostgreSQL:postgresql,postgres
+MongoDB:mongodb,mongo
+
+# AI / Data
+Machine Learning:machine learning,ml
+Deep Learning:deep learning
+NLP:nlp,natural language processing
+Pandas:pandas
+NumPy:numpy
+
+# Tools
+Git:git
+GitHub:github
+Docker:docker
+AWS:aws,amazon web services
+REST API:rest api,rest apis,restful api,restful apis
+Postman:postman
+HTML:html
+CSS:css
