@@ -35,3 +35,34 @@ REST API:rest api,rest apis,restful api,restful apis
 Postman:postman
 HTML:html
 CSS:css
+
+# AI / Data (more)
+Artificial Intelligence:artificial intelligence,articial intelligence
+TensorFlow:tensorflow
+PyTorch:pytorch
+Keras:keras
+Matplotlib:matplotlib
+Seaborn:seaborn
+OpenCV:opencv
+Computer Vision:computer vision
+Data Analysis:data analysis,data analytics
+Data Visualization:data visualization,data visualisation
+Jupyter:jupyter,jupyter notebook
+Tableau:tableau
+Power BI:power bi,powerbi
+Excel:excel,microsoft excel
+
+# Web / backend
+Flask:flask
+Django:django
+FastAPI:fastapi
+Streamlit:streamlit
+Spring:spring framework
+Express:express.js,expressjs
+REST API:restful
+
+# Tools / platforms
+Linux:linux
+Google Colab:google colab,colab
+Jira:jira
+VS Code:vs code,vscode,visual studio code

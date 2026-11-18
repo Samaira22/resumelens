@@ -3,8 +3,13 @@
 SQL:MySQL,PostgreSQL
 MySQL:PostgreSQL,SQL
 PostgreSQL:MySQL,SQL
-Machine Learning:Deep Learning,Scikit-learn
-Deep Learning:Machine Learning
+Machine Learning:Deep Learning,Scikit-learn,TensorFlow,PyTorch,Artificial Intelligence
+Deep Learning:TensorFlow,PyTorch,Keras,Machine Learning
 JavaScript:TypeScript
 TypeScript:JavaScript
 Node.js:JavaScript
+Data Analysis:Pandas,NumPy,Excel,Tableau,Power BI
+Data Visualization:Matplotlib,Seaborn,Tableau,Power BI
+TensorFlow:PyTorch,Keras
+PyTorch:TensorFlow,Keras
+Flask:Django,FastAPI
