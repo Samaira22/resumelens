@@ -1,53 +1,43 @@
 package com.resumelens;
 
-import com.resumelens.engine.JobDescriptionParser;
-import com.resumelens.engine.ResumeSectionParser;
+import com.resumelens.engine.ResumeAnalyzer;
 import com.resumelens.engine.ResumeTextExtractor;
-import com.resumelens.engine.ScoreCalculator;
-import com.resumelens.engine.SkillExtractor;
-import com.resumelens.engine.SkillMatcher;
-import com.resumelens.model.JobRequirements;
-import com.resumelens.model.ScoreReport;
-import com.resumelens.model.Section;
+import com.resumelens.model.AnalysisReport;
 
 import java.nio.file.Path;
-import java.util.Map;
-import java.util.Set;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        SkillExtractor extractor = new SkillExtractor();
-        SkillMatcher matcher = new SkillMatcher();
-        JobDescriptionParser parser = new JobDescriptionParser(extractor);
-        ScoreCalculator calculator = new ScoreCalculator(matcher);
-        ResumeTextExtractor fileReader = new ResumeTextExtractor();
-        ResumeSectionParser sectionParser = new ResumeSectionParser();
+        String resumeText = new ResumeTextExtractor()
+                .extract(Path.of("C:/ResumeLens/resumelens/Samples/resume.pdf"));
 
-        // 1. Read the resume file
-        Path path = Path.of("C:/ResumeLens/resumelens/Samples/resume.pdf");
-        String resumeText = fileReader.extract(path);
-
-        // 2. Split into sections
-        Map<Section, String> sections = sectionParser.parse(resumeText);
-        System.out.println("Sections found: " + sections.keySet());
-
-        // 3. Extract skills from everything except the header (name, phone, links)
-        Set<String> resumeSkills = extractor.extract(sectionParser.contentText(sections));
-
-        // 4. Parse the job description
         String job = """
-                Required: Python, Machine Learning, Pandas, NumPy.
-                Preferred: TensorFlow, SQL, Git, Docker.
-                """;
-        JobRequirements requirements = parser.parse(job);
+        Required: Python, Computer Vision, SQL.
+        Preferred: YOLO, Docker, Unit Testing.
+        """;
 
-        // 5. Score
-        ScoreReport report = calculator.calculate(resumeSkills, requirements);
+        AnalysisReport r = new ResumeAnalyzer().analyze(resumeText, job);
 
+        System.out.println("Required matched:  " + r.skills().required().matched());
+        System.out.println("Required partial:  " + r.skills().required().partial());
+        System.out.println("Required missing:  " + r.skills().required().missing());
+        System.out.println("Preferred matched: " + r.skills().preferred().matched());
+        System.out.println("Preferred partial: " + r.skills().preferred().partial());
+        System.out.println("Preferred missing: " + r.skills().preferred().missing());
         System.out.println();
-        System.out.println("Skills found in resume: " + resumeSkills);
-        System.out.println("Required matched:  " + report.required().matched());
-        System.out.println("Required partial:  " + report.required().partial());
-        System.out.println("Required missing:  " + report.required().missing());
+        System.out.println("Demonstrated in projects/experience: " + r.demonstratedSkills());
+        System.out.println("Listed only (no project evidence):   " + r.listedOnlySkills());
+        System.out.println("Missing resume sections:             " + r.missingSections());
+        System.out.println();
+        System.out.printf("S (skills)       = %.2f%n", r.skills().skillCoverage());
+        System.out.printf("T (evidence)     = %.2f%n", r.evidence());
+        System.out.printf("C (completeness) = %.2f%n", r.completeness());
+        System.out.println("FINAL SCORE: " + r.finalScore() + "/100 (" + r.label() + ")");
+        System.out.println();
+        System.out.println("Suggestions:");
+        int i = 1;
+        for (String s : r.suggestions()) {
+            System.out.println(i++ + ". " + s);
+        }
     }
 }

@@ -66,3 +66,10 @@ Linux:linux
 Google Colab:google colab,colab
 Jira:jira
 VS Code:vs code,vscode,visual studio code
+
+# Computer vision and tools
+YOLO:yolo,yolov8,yolov8n,yolov5
+Object Detection:object detection
+SQLite:sqlite
+Plotly:plotly
+Unit Testing:unit test,unit tests,unit testing,pytest,junit

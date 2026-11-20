@@ -1,15 +1,17 @@
 # If the job requires the left skill, these resume skills give partial credit
 # Format: RequiredSkill:related skill 1,related skill 2
-SQL:MySQL,PostgreSQL
+SQL:MySQL,PostgreSQL,SQLite
 MySQL:PostgreSQL,SQL
 PostgreSQL:MySQL,SQL
 Machine Learning:Deep Learning,Scikit-learn,TensorFlow,PyTorch,Artificial Intelligence
-Deep Learning:TensorFlow,PyTorch,Keras,Machine Learning
+Deep Learning:TensorFlow,PyTorch,Keras,Machine Learning,YOLO
 JavaScript:TypeScript
 TypeScript:JavaScript
 Node.js:JavaScript
 Data Analysis:Pandas,NumPy,Excel,Tableau,Power BI
-Data Visualization:Matplotlib,Seaborn,Tableau,Power BI
+Data Visualization:Matplotlib,Seaborn,Tableau,Power BI, Plotly
 TensorFlow:PyTorch,Keras
 PyTorch:TensorFlow,Keras
 Flask:Django,FastAPI
+Computer Vision:OpenCV,YOLO,Object Detection
+Object Detection:YOLO,Computer Vision
