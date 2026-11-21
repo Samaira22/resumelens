@@ -36,6 +36,7 @@ Java 21, Spring Boot, Maven, JUnit 5, Apache PDFBox, Apache POI
 3. Check it is up: `GET http://localhost:8080/api/health`
 
 Analyze a resume: `POST http://localhost:8080/api/analyze` (form-data: `resume` = PDF/DOCX file, `jobDescription` = text)
+
 ## Known limitations
 
 - Scanned (image-only) PDFs are not supported (no OCR)
