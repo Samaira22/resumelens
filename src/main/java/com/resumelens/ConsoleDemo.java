@@ -6,7 +6,7 @@ import com.resumelens.model.AnalysisReport;
 
 import java.nio.file.Path;
 
-public class Main {
+public class ConsoleDemo {
     public static void main(String[] args) throws Exception {
         String resumeText = new ResumeTextExtractor()
                 .extract(Path.of("C:/ResumeLens/resumelens/Samples/resume.pdf"));
