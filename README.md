@@ -31,10 +31,9 @@ Java 21, Spring Boot, Maven, JUnit 5, Apache PDFBox, Apache POI
 
 ## Run
 
-    mvn spring-boot:run
-
-Health check: `GET http://localhost:8080/api/health`
-
+1. Open the project in IntelliJ IDEA (JDK 21).
+2. Run `ResumeLensApplication`.
+3. Check it is up: `GET http://localhost:8080/api/health`
 ## Known limitations
 
 - Scanned (image-only) PDFs are not supported (no OCR)
