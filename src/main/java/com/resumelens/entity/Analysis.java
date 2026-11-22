@@ -22,6 +22,10 @@ public class Analysis {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User owner;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false,
             cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @JoinColumn(name = "resume_id", nullable = false)
@@ -38,7 +42,6 @@ public class Analysis {
     @Column(nullable = false)
     private String label;
 
-    // the full result, stored as JSON text
     @Lob
     @Column(name = "result_json", nullable = false)
     private String resultJson;
@@ -48,8 +51,9 @@ public class Analysis {
 
     protected Analysis() {}
 
-    public Analysis(Resume resume, JobDescription jobDescription,
+    public Analysis(User owner, Resume resume, JobDescription jobDescription,
                     int score, String label, String resultJson) {
+        this.owner = owner;
         this.resume = resume;
         this.jobDescription = jobDescription;
         this.score = score;
@@ -58,6 +62,7 @@ public class Analysis {
     }
 
     public Long getId() { return id; }
+    public User getOwner() { return owner; }
     public Resume getResume() { return resume; }
     public JobDescription getJobDescription() { return jobDescription; }
     public int getScore() { return score; }

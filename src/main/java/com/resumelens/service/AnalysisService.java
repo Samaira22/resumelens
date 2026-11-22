@@ -11,6 +11,7 @@ import com.resumelens.entity.JobDescription;
 import com.resumelens.entity.Resume;
 import com.resumelens.exception.ApiException;
 import com.resumelens.repository.AnalysisRepository;
+import com.resumelens.repository.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,17 +28,20 @@ public class AnalysisService {
     private final ResumeAnalyzer analyzer;
     private final ResumeTextExtractor extractor;
     private final AnalysisRepository repository;
+    private final UserRepository users;
     private final ObjectMapper objectMapper;
 
     public AnalysisService(ResumeAnalyzer analyzer, ResumeTextExtractor extractor,
-                           AnalysisRepository repository, ObjectMapper objectMapper) {
+                           AnalysisRepository repository, UserRepository users,
+                           ObjectMapper objectMapper) {
         this.analyzer = analyzer;
         this.extractor = extractor;
         this.repository = repository;
+        this.users = users;
         this.objectMapper = objectMapper;
     }
 
-    public AnalysisResponse analyze(MultipartFile file, String jobDescription, String jobTitle) {
+    public AnalysisResponse analyze(Long userId, MultipartFile file, String jobDescription, String jobTitle) {
         if (file == null || file.isEmpty()) {
             throw new ApiException(HttpStatus.BAD_REQUEST, "The resume file is empty.");
         }
@@ -55,19 +59,19 @@ public class AnalysisService {
 
         Resume resume = new Resume(safeFileName(file.getOriginalFilename()), text);
         JobDescription job = new JobDescription(cleanTitle(jobTitle), jobDescription);
-        Analysis saved = repository.save(
-                new Analysis(resume, job, result.score(), result.label(), toJson(result)));
+        Analysis saved = repository.save(new Analysis(
+                users.getReferenceById(userId), resume, job,
+                result.score(), result.label(), toJson(result)));
 
         return result.withId(saved.getId());
     }
 
-    public List<AnalysisSummary> list() {
-        return repository.findSummaries();
+    public List<AnalysisSummary> list(Long userId) {
+        return repository.findSummariesByOwner(userId);
     }
 
-    public AnalysisResponse get(Long id) {
-        Analysis analysis = repository.findById(id)
-                .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "Analysis not found: " + id));
+    public AnalysisResponse get(Long userId, Long id) {
+        Analysis analysis = findOwned(userId, id);
         try {
             return objectMapper.readValue(analysis.getResultJson(), AnalysisResponse.class)
                     .withId(analysis.getId());
@@ -76,19 +80,20 @@ public class AnalysisService {
         }
     }
 
-    public void delete(Long id) {
-        if (!repository.existsById(id)) {
-            throw new ApiException(HttpStatus.NOT_FOUND, "Analysis not found: " + id);
-        }
-        repository.deleteById(id);
+    public void delete(Long userId, Long id) {
+        repository.delete(findOwned(userId, id));
     }
 
-    // ---- helpers ----
+    // A missing analysis and someone else's analysis both give 404,
+    // so users cannot discover which ids exist.
+    private Analysis findOwned(Long userId, Long id) {
+        return repository.findByIdAndOwnerId(id, userId)
+                .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "Analysis not found: " + id));
+    }
 
     private String readText(MultipartFile file, String extension) {
         Path temp = null;
         try {
-            // our own temp name: the user's filename is never used on disk
             temp = Files.createTempFile("resumelens-", extension);
             Files.copy(file.getInputStream(), temp, StandardCopyOption.REPLACE_EXISTING);
 
