@@ -51,14 +51,13 @@ Java 21, Spring Boot, Spring Data JPA, H2, Maven, JUnit 5, Apache PDFBox, Apache
 - Scanned (image-only) PDFs are not supported (no OCR)
 - Skill detection is keyword-based, so a skill is found only if the dictionary knows it
 - Section detection relies on common headings such as "Education" or "Projects"
-- No user accounts yet, so all analyses are visible to anyone who can reach the server
 
 ## Roadmap
 
 - [x] Core engine: extraction, matching, scoring, suggestions
 - [x] REST API for resume upload and analysis
 - [x] Analysis history (JPA, H2)
-- [ ] Authentication (JWT) and per-user history
+- [x] Authentication (JWT) and per-user history
 - [ ] MySQL
 - [ ] React frontend
 - [ ] Docker and deployment
