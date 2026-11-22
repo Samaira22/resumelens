@@ -24,10 +24,12 @@ how it was calculated. This is a custom compatibility metric, not a real ATS sco
 - Partial credit for related skills (PostgreSQL for SQL)
 - Resume section detection (Education, Skills, Projects, Experience)
 - Rule-based improvement suggestions
+- REST API with validation and JSON error responses
+- Saved analysis history (Spring Data JPA, H2 database)
 
 ## Tech stack
 
-Java 21, Spring Boot, Maven, JUnit 5, Apache PDFBox, Apache POI
+Java 21, Spring Boot, Spring Data JPA, H2, Maven, JUnit 5, Apache PDFBox, Apache POI
 
 ## Run
 
@@ -35,18 +37,28 @@ Java 21, Spring Boot, Maven, JUnit 5, Apache PDFBox, Apache POI
 2. Run `ResumeLensApplication`.
 3. Check it is up: `GET http://localhost:8080/api/health`
 
-Analyze a resume: `POST http://localhost:8080/api/analyze` (form-data: `resume` = PDF/DOCX file, `jobDescription` = text)
+## API
+
+| Method | URL | Description |
+|--------|-----|-------------|
+| POST | `/api/analyze` | Analyze a resume. Form-data: `resume` (PDF/DOCX file), `jobDescription` (text), `jobTitle` (optional text) |
+| GET | `/api/analyses` | List saved analyses |
+| GET | `/api/analyses/{id}` | Get one saved analysis |
+| DELETE | `/api/analyses/{id}` | Delete one saved analysis |
 
 ## Known limitations
 
 - Scanned (image-only) PDFs are not supported (no OCR)
 - Skill detection is keyword-based, so a skill is found only if the dictionary knows it
 - Section detection relies on common headings such as "Education" or "Projects"
+- No user accounts yet, so all analyses are visible to anyone who can reach the server
 
 ## Roadmap
 
 - [x] Core engine: extraction, matching, scoring, suggestions
 - [x] REST API for resume upload and analysis
-- [ ] MySQL storage and analysis history
-- [ ] Authentication
+- [x] Analysis history (JPA, H2)
+- [ ] Authentication (JWT) and per-user history
+- [ ] MySQL
 - [ ] React frontend
+- [ ] Docker and deployment
