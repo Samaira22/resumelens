@@ -54,7 +54,7 @@ function SkillGroup({ title, group }) {
     )
 }
 
-export default function Results({ result, onNew }) {
+export default function Results({ result, onBack, backLabel }) {
     return (
         <>
             <div className="card">
@@ -107,7 +107,7 @@ export default function Results({ result, onNew }) {
                 )}
             </div>
 
-            <button className="secondary" onClick={onNew}>Analyze another resume</button>
+            {onBack && <button className="secondary" onClick={onBack}>{backLabel}</button>}
         </>
     )
 }
