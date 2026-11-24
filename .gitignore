@@ -43,3 +43,4 @@ Samples/
 ### Secrets (for later: database passwords, API keys) ###
 .env
 application-local.properties
+data/
